@@ -1,0 +1,7 @@
+{
+    "name": "@workerd-manager/workerd-manager-monorepo",
+    "private": true,
+    "type": "module",
+    "author": "LokiSharp",
+    "license": "MIT"
+}
