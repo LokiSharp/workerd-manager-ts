@@ -1,4 +1,4 @@
-import { generateWorkerConfig, generateWorkerConfigCapfile } from "@/worked-conf-generator";
+import { generateWorkerConfig, generateWorkerConfigCapfile } from "@/workerd-conf-generator";
 import { Worker } from '@/gen/wokerd_pb';
 
 describe("test generateWorkerConfig function", () => {

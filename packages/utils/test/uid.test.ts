@@ -1,4 +1,4 @@
-import { generateUID } from "../src/uid";
+import { generateUID } from "@/uid";
 
 describe("test generateUID function", () => {
     it("should return generated UID", () => {

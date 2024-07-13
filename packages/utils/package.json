@@ -4,7 +4,9 @@
     "author": "LokiSharp",
     "private": true,
     "license": "MIT",
+    "main": "dist/src/index.js",
     "scripts": {
+        "build": "tsc && tsc-alias",
         "lint": "eslint --fix",
         "test": "jest",
         "test:watch": "jest --watch",
