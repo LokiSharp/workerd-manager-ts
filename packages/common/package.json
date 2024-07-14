@@ -1,5 +1,5 @@
 {
-    "name": "@workerd-manager/utils",
+    "name": "@workerd-manager/common",
     "version": "0.0.0",
     "author": "LokiSharp",
     "private": true,

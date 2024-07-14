@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
-import utils from '@workerd-manager/utils';
+import common from '@workerd-manager/common';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    await app.listen(utils.appConfigInstance.APIPort, utils.appConfigInstance.APIListenAddress);
+    await app.listen(common.appConfigInstance.APIPort, common.appConfigInstance.APIListenAddress);
 }
 bootstrap();
