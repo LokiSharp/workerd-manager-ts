@@ -10,7 +10,7 @@ describe("test generateWorkerConfig function", () => {
             nodeName: "test",
             port: 8080,
             entry: "entry.js",
-            code: new Uint8Array(0),
+            code: "",
             name: "test",
         });
 

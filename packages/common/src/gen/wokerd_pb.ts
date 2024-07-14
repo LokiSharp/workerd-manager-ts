@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, protoInt64 } from "@bufbuild/protobuf";
+import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
  * @generated from message Worker
@@ -55,9 +55,9 @@ export class Worker extends Message<Worker> {
   /**
    * worker's code
    *
-   * @generated from field: bytes code = 7;
+   * @generated from field: string code = 7;
    */
-  code = new Uint8Array(0);
+  code = "";
 
   /**
    * worker's name, also use at worker routing, must be unique, default is UID
@@ -76,9 +76,9 @@ export class Worker extends Message<Worker> {
   /**
    * worker's user id
    *
-   * @generated from field: uint64 userId = 10;
+   * @generated from field: string userId = 10;
    */
-  userId = protoInt64.zero;
+  userId = "";
 
   /**
    * worker's template
@@ -101,10 +101,10 @@ export class Worker extends Message<Worker> {
     { no: 4, name: "nodeName", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "port", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 6, name: "entry", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 7, name: "code", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 7, name: "code", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 8, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 9, name: "tunnelId", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 10, name: "userId", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
+    { no: 10, name: "userId", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 11, name: "template", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 

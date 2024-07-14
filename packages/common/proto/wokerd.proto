@@ -7,10 +7,10 @@ message Worker {
 	string nodeName = 4; // for future HA feature, default is 'default'
 	int32 port = 5; // worker's port, platfrom will obtain free port while init worker
 	string entry = 6; // worker's entry file, default is 'entry.js'
-	bytes code = 7; // worker's code
+	string code = 7; // worker's code
 	string name = 8; // worker's name, also use at worker routing, must be unique, default is UID
 	string tunnelId = 9; // worker's tunnel id
-	uint64 userId = 10; // worker's user id
+	string userId = 10; // worker's user id
 	string template = 11; // worker's template
 }
 

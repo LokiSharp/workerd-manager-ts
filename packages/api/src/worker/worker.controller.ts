@@ -7,15 +7,19 @@ export class WorkerController {
     constructor(private readonly workerService: WorkerService) { }
     @Post()
     async create(@Body() workerData: Prisma.WorkerCreateInput): Promise<WorkerModel> {
-        return this.workerService.createWorker(workerData);
+        const worker = await this.workerService.createWorker(workerData)
+        this.workerService.generateWorkerdConfig(worker);
+        return worker;
     }
 
     @Put('/:id')
-    update(@Param('id') id: string, @Body() workerData: Prisma.WorkerUpdateInput): Promise<WorkerModel> {
-        return this.workerService.updateWorker({
+    async update(@Param('id') id: string, @Body() workerData: Prisma.WorkerUpdateInput): Promise<WorkerModel> {
+        const worker = await this.workerService.updateWorker({
             where: { id },
             data: workerData,
         });
+        this.workerService.generateWorkerdConfig(worker);
+        return worker;
     }
 
     @Get()

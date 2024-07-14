@@ -41,6 +41,12 @@ export function generateWorkerConfigCapfile(worker: Worker): Error | undefined {
         return new Error('Error building Capfile');
     }
     console.log(appConfigInstance.WorkerdDir);
+    console.log(join(
+        appConfigInstance.WorkerdDir,
+        'worker-info',
+        worker.id,
+        'Capfile'
+    ))
     try {
         writeFileSyncRecursive(
             join(
