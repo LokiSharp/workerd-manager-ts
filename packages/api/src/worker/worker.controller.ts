@@ -13,7 +13,7 @@ export class WorkerController {
     @Put('/:id')
     update(@Param('id') id: string, @Body() workerData: Prisma.WorkerUpdateInput): Promise<WorkerModel> {
         return this.workerService.updateWorker({
-            where: { UID: id },
+            where: { id },
             data: workerData,
         });
     }
@@ -25,11 +25,11 @@ export class WorkerController {
 
     @Get('/:id')
     findOne(@Param('id') id: string) {
-        return this.workerService.findWorker({ UID: id });
+        return this.workerService.findWorker({ id });
     }
 
     @Delete('/:id')
     remove(@Param('id') id: string): Promise<WorkerModel> {
-        return this.workerService.removeWorker({ UID: id });
+        return this.workerService.removeWorker({ id });
     }
 }

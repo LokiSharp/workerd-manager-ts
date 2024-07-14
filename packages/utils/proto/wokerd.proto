@@ -1,26 +1,26 @@
 syntax = "proto3";
 
 message Worker {
-	string UID = 1; // Unique id of the worker
-	string ExternalPath = 2; // External path of the worker, default is '/'
-	string HostName = 3; // the workerd runner host name, default is 'localhost'
-	string NodeName = 4; // for future HA feature, default is 'default'
-	int32 Port = 5; // worker's port, platfrom will obtain free port while init worker
-	string Entry = 6; // worker's entry file, default is 'entry.js'
-	bytes Code = 7; // worker's code
-	string Name = 8; // worker's name, also use at worker routing, must be unique, default is UID
-	string TunnelID = 9; // worker's tunnel id
-	uint64 UserID = 10; // worker's user id
-	string Template = 11; // worker's template
+	string id = 1; // Unique id of the worker
+	string externalPath = 2; // External path of the worker, default is '/'
+	string hostName = 3; // the workerd runner host name, default is 'localhost'
+	string nodeName = 4; // for future HA feature, default is 'default'
+	int32 port = 5; // worker's port, platfrom will obtain free port while init worker
+	string entry = 6; // worker's entry file, default is 'entry.js'
+	bytes code = 7; // worker's code
+	string name = 8; // worker's name, also use at worker routing, must be unique, default is UID
+	string tunnelId = 9; // worker's tunnel id
+	uint64 userId = 10; // worker's user id
+	string template = 11; // worker's template
 }
 
-message WorkerList { 
-	string ConfName = 1; // the name of the workerd instance
-	repeated Worker Workers = 2;
-	string NodeName = 3; // workerd runner host name, for HA
+message WorkerList {
+	string confName = 1; // the name of the workerd instance
+	repeated Worker workers = 2;
+	string nodeName = 3; // workerd runner host name, for HA
 }
 
 message Node {
-	string Name = 1; // the name of the node
-	string UID = 2; // the id of the node
+	string name = 1; // the name of the node
+	string id = 2; // the id of the node
 }

@@ -2,21 +2,21 @@ export const DefaultTemplate = `using Workerd = import "/workerd/workerd.capnp";
 
 const config :Workerd.Config = (
   services = [
-    (name = "{{UID}}", worker = .{{UID}}Worker),
+    (name = "{{id}}", worker = .{{id}}Worker),
   ],
 
   sockets = [
     (
-      name = "{{UID}}",
-      address = "{{HostName}}:{{Port}}",
+      name = "{{id}}",
+      address = "{{hostName}}:{{port}}",
       http = (),
-      service = "{{UID}}"
+      service = "{{id}}"
     ),
   ]
 );
 
-const {{UID}}Worker :Workerd.Worker = (
-  serviceWorkerScript = embed "src/{{Entry}}",
+const {{id}}Worker :Workerd.Worker = (
+  serviceWorkerScript = embed "src/{{entry}}",
   compatibilityDate = "2024-06-03",
 );
 `;

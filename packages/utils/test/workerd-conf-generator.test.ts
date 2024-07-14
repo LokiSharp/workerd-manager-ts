@@ -4,14 +4,14 @@ import { Worker } from '@/gen/wokerd_pb';
 describe("test generateWorkerConfig function", () => {
     it("should return generated Worker Config", () => {
         const configData = new Worker({
-            UID: "a5eb7b7d602449f699cb7bda44fde846",
-            ExternalPath: "test",
-            HostName: "example.com",
-            NodeName: "test",
-            Port: 8080,
-            Entry: "entry.js",
-            Code: new Uint8Array(0),
-            Name: "test",
+            id: "a5eb7b7d602449f699cb7bda44fde846",
+            externalPath: "test",
+            hostName: "example.com",
+            nodeName: "test",
+            port: 8080,
+            entry: "entry.js",
+            code: new Uint8Array(0),
+            name: "test",
         });
 
         const config = generateWorkerConfig(configData);

@@ -1,36 +1,33 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DB_PATH")
+    provider = "sqlite"
+    url      = env("DB_PATH")
 }
 
 model Worker {
-  UID          String  @id @default(uuid())
-  ExternalPath String  @default("/")
-  HostName     String  @default("localhost")
-  NodeName     String  @default("default")
-  Port         Int
-  Entry        String  @default("entry.js")
-  Code         String
-  Name         String
-  TunnelID     String?
-  UserID       String
-  Template     String?
-
-  @@unique([UID])
+    id           String  @id @default(uuid())
+    externalPath String  @default("/")
+    hostName     String  @default("localhost")
+    nodeName     String  @default("default")
+    port         Int
+    entry        String  @default("entry.js")
+    code         String
+    name         String
+    tunnelId     String?
+    template     String?
+    user         User    @relation(fields: [userId], references: [id])
+    userId       String
 }
 
 model User {
-    UID          String  @id @default(uuid())
-    UserName     String
-    Password     String
-    Email        String
-    Status       Int?
-    Role         String @default("USER")
-
-    @@unique([UID])
-    @@unique([UserName])
+    id       String   @id @default(uuid())
+    email    String   @unique
+    userName String
+    password String
+    role     String   @default("USER")
+    status   Int?
+    workers  Worker[]
 }

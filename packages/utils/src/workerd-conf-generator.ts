@@ -14,13 +14,13 @@ export function generateWorkerConfigs(workers: Worker[]): { [key: string]: strin
     }
     const results: { [key: string]: string } = {};
     for (const worker of workers) {
-        results[worker.UID] = generateWorkerConfig(worker);
+        results[worker.id] = generateWorkerConfig(worker);
     }
     return results;
 }
 
 export function generateWorkerConfig(worker: Worker): string {
-    const template = worker.Template || DefaultTemplate;
+    const template = worker.template || DefaultTemplate;
     const templateHash = getTemplateHash(template);
     const compiledTemplate = templateCache[templateHash] || compile(template);
     if (!templateCache[templateHash]) {
@@ -31,12 +31,12 @@ export function generateWorkerConfig(worker: Worker): string {
 
 
 export function generateWorkerConfigCapfile(worker: Worker): Error | undefined {
-    if (!worker || !worker.UID) {
+    if (!worker || !worker.id) {
         return new Error('Invalid worker');
     }
 
     const fileMap = generateWorkerConfigs([worker]);
-    const fileContent = fileMap[worker.UID];
+    const fileContent = fileMap[worker.id];
     if (!fileContent) {
         return new Error('Error building Capfile');
     }
@@ -46,7 +46,7 @@ export function generateWorkerConfigCapfile(worker: Worker): Error | undefined {
             join(
                 appConfigInstance.WorkerdDir,
                 'worker-info',
-                worker.UID,
+                worker.id,
                 'Capfile'
             ),
             fileContent

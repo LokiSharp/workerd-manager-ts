@@ -13,7 +13,7 @@ export class UserController {
     @Put('/:id')
     update(@Param('id') id: string, @Body() UserData: Prisma.UserUpdateInput): Promise<UserModel> {
         return this.UserService.updateUser({
-            where: { UID: id },
+            where: { id },
             data: UserData,
         });
     }
@@ -25,11 +25,11 @@ export class UserController {
 
     @Get('/:id')
     findOne(@Param('id') id: string) {
-        return this.UserService.findUser({ UID: id });
+        return this.UserService.findUser({ id });
     }
 
     @Delete('/:id')
     remove(@Param('id') id: string): Promise<UserModel> {
-        return this.UserService.removeUser({ UID: id });
+        return this.UserService.removeUser({ id });
     }
 }
