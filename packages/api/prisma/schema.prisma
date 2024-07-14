@@ -17,8 +17,20 @@ model Worker {
   Code         String
   Name         String
   TunnelID     String?
-  UserID       BigInt
+  UserID       String
   Template     String?
 
   @@unique([UID])
+}
+
+model User {
+    UID          String  @id @default(uuid())
+    UserName     String
+    Password     String
+    Email        String
+    Status       Int?
+    Role         String @default("USER")
+
+    @@unique([UID])
+    @@unique([UserName])
 }
