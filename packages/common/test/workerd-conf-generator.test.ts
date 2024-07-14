@@ -1,4 +1,4 @@
-import { generateWorkerConfig, generateWorkerConfigCapfile } from "@/workerd-conf-generator";
+import { generateWorkerConfig, generateWorkerConfigCapfile } from "@/workerd/workerd-conf-generator";
 import { Worker } from '@/gen/wokerd_pb';
 
 describe("test generateWorkerConfig function", () => {
@@ -19,7 +19,7 @@ describe("test generateWorkerConfig function", () => {
 
 const config :Workerd.Config = (
   services = [
-    (name = "a5eb7b7d602449f699cb7bda44fde846", worker = .a5eb7b7d602449f699cb7bda44fde846Worker),
+    (name = "a5eb7b7d602449f699cb7bda44fde846", worker = .workera5eb7b7d602449f699cb7bda44fde846),
   ],
 
   sockets = [
@@ -32,7 +32,7 @@ const config :Workerd.Config = (
   ]
 );
 
-const a5eb7b7d602449f699cb7bda44fde846Worker :Workerd.Worker = (
+const workera5eb7b7d602449f699cb7bda44fde846 :Workerd.Worker = (
   serviceWorkerScript = embed "src/entry.js",
   compatibilityDate = "2024-06-03",
 );

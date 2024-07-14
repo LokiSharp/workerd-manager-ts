@@ -1,4 +1,4 @@
 import { appConfigInstance } from "@/env-conf";
-import * as workerGenerator from "@/workerd-conf-generator"
+import { workerGenerator, workerdCodeGenerator } from "@/workerd"
 import { Worker } from '@/gen/wokerd_pb';
-export { appConfigInstance, workerGenerator, Worker };
+export { appConfigInstance, workerGenerator, workerdCodeGenerator, Worker };

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
 import { Worker as WorkerModel, Prisma } from '@prisma/client';
-import { workerGenerator, Worker } from '@workerd-manager/common'
+import { workerGenerator, Worker, workerdCodeGenerator } from '@workerd-manager/common'
 
 @Injectable()
 export class WorkerService {
@@ -48,7 +48,19 @@ export class WorkerService {
 
     generateWorkerdConfig(worker: WorkerModel) {
         const configData = new Worker(worker);
-        const result = workerGenerator.generateWorkerConfigCapfile(configData);
-        console.log(result);
+        workerGenerator.generateWorkerConfigCapfile(configData);
+    }
+
+    async updateFile(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+        this.generateWorkerdConfig(configData);
+        workerdCodeGenerator.updateFile(configData);
+        return configData;
+    }
+
+    async deleteFile(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+        workerdCodeGenerator.deleteFile(configData);
+        return configData;
     }
 }

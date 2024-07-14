@@ -8,7 +8,6 @@ export class WorkerController {
     @Post()
     async create(@Body() workerData: Prisma.WorkerCreateInput): Promise<WorkerModel> {
         const worker = await this.workerService.createWorker(workerData)
-        this.workerService.generateWorkerdConfig(worker);
         return worker;
     }
 
@@ -18,7 +17,6 @@ export class WorkerController {
             where: { id },
             data: workerData,
         });
-        this.workerService.generateWorkerdConfig(worker);
         return worker;
     }
 
@@ -35,5 +33,15 @@ export class WorkerController {
     @Delete('/:id')
     remove(@Param('id') id: string): Promise<WorkerModel> {
         return this.workerService.removeWorker({ id });
+    }
+
+    @Post('/:id/file')
+    updateFile(@Param('id') id: string): Promise<WorkerModel> {
+        return this.workerService.updateFile({ id });
+    }
+
+    @Delete('/:id/file')
+    deleteFile(@Param('id') id: string): Promise<WorkerModel> {
+        return this.workerService.deleteFile({ id });
     }
 }

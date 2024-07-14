@@ -2,7 +2,7 @@ export const DefaultTemplate = `using Workerd = import "/workerd/workerd.capnp";
 
 const config :Workerd.Config = (
   services = [
-    (name = "{{id}}", worker = .{{id}}Worker),
+    (name = "{{id}}", worker = .worker{{id}}),
   ],
 
   sockets = [
@@ -15,7 +15,7 @@ const config :Workerd.Config = (
   ]
 );
 
-const {{id}}Worker :Workerd.Worker = (
+const worker{{id}} :Workerd.Worker = (
   serviceWorkerScript = embed "src/{{entry}}",
   compatibilityDate = "2024-06-03",
 );
