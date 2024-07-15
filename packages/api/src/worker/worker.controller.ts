@@ -44,4 +44,14 @@ export class WorkerController {
     deleteFile(@Param('id') id: string): Promise<WorkerModel> {
         return this.workerService.deleteFile({ id });
     }
+
+    @Post('/:id/run')
+    runWorker(@Param('id') id: string): Promise<WorkerModel> {
+        return this.workerService.runWorker({ id });
+    }
+
+    @Delete('/:id/run')
+    stopWorker(@Param('id') id: string): Promise<WorkerModel> {
+        return this.workerService.stopWorker({ id });
+    }
 }

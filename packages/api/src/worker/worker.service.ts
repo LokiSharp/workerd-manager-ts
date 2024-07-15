@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
 import { Worker as WorkerModel, Prisma } from '@prisma/client';
-import { workerGenerator, Worker, workerdCodeGenerator } from '@workerd-manager/common'
+import { WorkerdRunner, workerGenerator, Worker, workerdCodeGenerator } from '@workerd-manager/common'
 
 @Injectable()
 export class WorkerService {
+    public runner = new WorkerdRunner();
     constructor(private prisma: PrismaService) { }
 
     async createWorker(data: Prisma.WorkerCreateInput): Promise<WorkerModel> {
@@ -62,5 +63,21 @@ export class WorkerService {
         const configData = new Worker(await this.prisma.worker.findUnique({ where }));
         workerdCodeGenerator.deleteFile(configData);
         return configData;
+    }
+
+    async runWorker(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+        this.runner.runCmd(configData.id, []);
+        return configData;
+    }
+
+    async stopWorker(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+        this.runner.exitCmd(configData.id);
+        return configData;
+    }
+
+    async stopAllWorkers() {
+        this.runner.exitAllCmd();
     }
 }
