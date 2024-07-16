@@ -18,7 +18,6 @@ services:
         # (Adding the "ports" property to this file will not forward from a Codespace.)
         environment:
             WORKERD_DIR: /workspaces/workerd-manager/tmp/workerd
-            WORKERD_BIN_PATH: /workspaces/workerd-manager/bin/workerd
             DB_PATH: file:/workspaces/workerd-manager/tmp/workerd/db.sqlite
             DB_TYPE: sqlite
             API_LISTEN_ADDR: 0.0.0.0

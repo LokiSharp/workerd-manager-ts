@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
 import { Worker as WorkerModel, Prisma } from '@prisma/client';
-import { WorkerdRunner, workerGenerator, Worker, workerdCodeGenerator } from '@workerd-manager/common'
+import { WorkerdRunner, workerGenerator, Worker, workerdCodeGenerator } from '@/common'
 
 @Injectable()
 export class WorkerService {

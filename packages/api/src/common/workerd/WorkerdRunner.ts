@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { appConfigInstance } from '@/env-conf';
+import { appConfigInstance } from '../env-conf';
 import { ChildProcess, spawn } from 'child_process';
 
 export class WorkerdRunner {
@@ -28,7 +28,7 @@ export class WorkerdRunner {
             )
 
             const args = ['serve', join(workerDir, 'Capfile'), '--watch', '--verbose', ...argv];
-            const cmd = appConfigInstance.WorkerdBinPath;
+            const cmd = "workerd";
             const child = spawn(cmd, args);
 
             child.stdout.on('data', (data) => {

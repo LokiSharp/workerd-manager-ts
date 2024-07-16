@@ -2,9 +2,9 @@ import { compile } from 'handlebars';
 import { createHash } from 'crypto';
 import { Worker } from '@/gen/wokerd_pb';
 import { join } from 'path';
-import { DefaultTemplate } from '@/const';
-import { appConfigInstance } from '@/env-conf';
-import { writeFileSyncRecursive } from '@/utils';
+import { DefaultTemplate } from '../const';
+import { appConfigInstance } from '../env-conf';
+import { writeFileSyncRecursive } from '../utils';
 
 const templateCache: { [key: string]: (data: Worker) => string } = {};
 

@@ -1,7 +1,7 @@
 import { Worker } from '@/gen/wokerd_pb';
 import { join } from 'path';
-import { appConfigInstance } from '@/env-conf';
-import { writeFileSyncRecursive } from '@/utils';
+import { appConfigInstance } from '../env-conf';
+import { writeFileSyncRecursive } from '../utils';
 import { rmdirSync } from 'fs';
 
 export function updateFile(worker: Worker): Error | undefined {
