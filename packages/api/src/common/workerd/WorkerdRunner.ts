@@ -1,6 +1,8 @@
 import { join } from 'path';
-import { appConfigInstance } from '../env-conf';
+import { ConfigService } from '@nestjs/config';
 import { ChildProcess, spawn } from 'child_process';
+
+const configService = new ConfigService();
 
 export class WorkerdRunner {
     private signMap = new Map<string, boolean>();
@@ -22,7 +24,7 @@ export class WorkerdRunner {
             console.warn(`[WorkerdRunner] ${id} start running...`);
 
             const workerDir = join(
-                appConfigInstance.WorkerdDir,
+                configService.get('WORKERD_DIR'),
                 'worker-info',
                 id
             )

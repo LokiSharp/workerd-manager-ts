@@ -3,9 +3,10 @@ import { createHash } from 'crypto';
 import { Worker } from '@/gen/wokerd_pb';
 import { join } from 'path';
 import { DefaultTemplate } from '../const';
-import { appConfigInstance } from '../env-conf';
+import { ConfigService } from '@nestjs/config';
 import { writeFileSyncRecursive } from '../utils';
 
+const configService = new ConfigService();
 const templateCache: { [key: string]: (data: Worker) => string } = {};
 
 export function generateWorkerConfigs(workers: Worker[]): { [key: string]: string } {
@@ -44,7 +45,7 @@ export function generateWorkerConfigCapfile(worker: Worker): Error | undefined {
     try {
         writeFileSyncRecursive(
             join(
-                appConfigInstance.WorkerdDir,
+                configService.get('WORKERD_DIR'),
                 'worker-info',
                 worker.id,
                 'Capfile'

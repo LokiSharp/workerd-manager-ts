@@ -1,8 +1,10 @@
 import { Worker } from '@/gen/wokerd_pb';
 import { join } from 'path';
-import { appConfigInstance } from '../env-conf';
+import { ConfigService } from '@nestjs/config';
 import { writeFileSyncRecursive } from '../utils';
 import { rmdirSync } from 'fs';
+
+const configService = new ConfigService();
 
 export function updateFile(worker: Worker): Error | undefined {
     if (!worker || !worker.id) {
@@ -12,10 +14,10 @@ export function updateFile(worker: Worker): Error | undefined {
     try {
         writeFileSyncRecursive(
             join(
-                appConfigInstance.WorkerdDir,
-                appConfigInstance.WorkerInfoDir,
+                configService.get('WORKERD_DIR'),
+                configService.get('WORKER_INFO_DIR'),
                 worker.id,
-                appConfigInstance.WorkerCodeDir,
+                configService.get('WORKER_CODE_DIR'),
                 worker.entry
             ),
             worker.code
@@ -33,8 +35,8 @@ export function deleteFile(worker: Worker): Error | undefined {
     try {
         rmdirSync(
             join(
-                appConfigInstance.WorkerdDir,
-                appConfigInstance.WorkerInfoDir,
+                configService.get('WORKERD_DIR'),
+                configService.get('WORKER_INFO_DIR'),
                 worker.id,
             ),
             { recursive: true }
