@@ -11,7 +11,7 @@ export class UserController {
     }
 
     @Put('/:id')
-    update(@Param('id') id: string, @Body() UserData: Prisma.UserUpdateInput): Promise<UserModel> {
+    async update(@Param('id') id: string, @Body() UserData: Prisma.UserUpdateInput): Promise<UserModel> {
         return this.UserService.updateUser({
             where: { id },
             data: UserData,
@@ -19,17 +19,17 @@ export class UserController {
     }
 
     @Get()
-    findAll() {
+    async findAll(): Promise<UserModel[]> {
         return this.UserService.findUsers({});
     }
 
     @Get('/:id')
-    findOne(@Param('id') id: string) {
+    async findOne(@Param('id') id: string): Promise<UserModel> {
         return this.UserService.findUser({ id });
     }
 
     @Delete('/:id')
-    remove(@Param('id') id: string): Promise<UserModel> {
+    async remove(@Param('id') id: string): Promise<UserModel> {
         return this.UserService.removeUser({ id });
     }
 }

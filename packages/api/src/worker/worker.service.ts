@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
 import { Worker as WorkerModel, Prisma } from '@prisma/client';
-import { WorkerdRunner, workerGenerator, Worker, workerdCodeGenerator } from '@/common'
+import { Worker } from '@/gen/wokerd_pb';
+import { WorkerdService } from '@/workerd/workerd.service';
 
 @Injectable()
 export class WorkerService {
-    public runner = new WorkerdRunner();
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService, private workerd: WorkerdService) { }
 
     async createWorker(data: Prisma.WorkerCreateInput): Promise<WorkerModel> {
         return this.prisma.worker.create({ data });
@@ -47,37 +47,32 @@ export class WorkerService {
         return this.prisma.worker.delete({ where });
     }
 
-    generateWorkerdConfig(worker: WorkerModel) {
-        const configData = new Worker(worker);
-        workerGenerator.generateWorkerConfigCapfile(configData);
-    }
-
-    async updateFile(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+    async writeWorkerConfigCapfile(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
         const configData = new Worker(await this.prisma.worker.findUnique({ where }));
-        this.generateWorkerdConfig(configData);
-        workerdCodeGenerator.updateFile(configData);
-        return configData;
+        return this.workerd.writeWorkerConfigCapfile(configData);
     }
 
-    async deleteFile(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+    async writeWorkerCode(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
         const configData = new Worker(await this.prisma.worker.findUnique({ where }));
-        workerdCodeGenerator.deleteFile(configData);
-        return configData;
+        return this.workerd.writeWorkerCode(configData);
     }
 
-    async runWorker(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+    async deleteFile(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
         const configData = new Worker(await this.prisma.worker.findUnique({ where }));
-        this.runner.runCmd(configData.id, []);
-        return configData;
+        return this.workerd.deleteFile(configData);
     }
 
-    async stopWorker(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
+    async runWorker(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
         const configData = new Worker(await this.prisma.worker.findUnique({ where }));
-        this.runner.exitCmd(configData.id);
-        return configData;
+        return this.workerd.runCmd(configData.id, []);
     }
 
-    async stopAllWorkers() {
-        this.runner.exitAllCmd();
+    async stopWorker(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+        return this.workerd.exitCmd(configData.id);
+    }
+
+    async stopAllWorkers(): Promise<Error | undefined> {
+        return this.workerd.exitAllCmd();
     }
 }

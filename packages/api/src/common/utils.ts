@@ -1,5 +1,5 @@
 import { writeFileSync, existsSync, mkdirSync, WriteFileOptions } from 'fs';
-import path from 'path';
+import * as path from 'path';
 
 export function ensureDirectoryExistence(directoryPath: string): void {
     if (!existsSync(directoryPath)) {

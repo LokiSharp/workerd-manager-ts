@@ -21,37 +21,42 @@ export class WorkerController {
     }
 
     @Get()
-    findAll() {
+    async findAll(): Promise<WorkerModel[]> {
         return this.workerService.findWorkers({});
     }
 
     @Get('/:id')
-    findOne(@Param('id') id: string) {
+    async findOne(@Param('id') id: string): Promise<WorkerModel> {
         return this.workerService.findWorker({ id });
     }
 
     @Delete('/:id')
-    remove(@Param('id') id: string): Promise<WorkerModel> {
+    async remove(@Param('id') id: string): Promise<WorkerModel> {
         return this.workerService.removeWorker({ id });
     }
 
-    @Post('/:id/file')
-    updateFile(@Param('id') id: string): Promise<WorkerModel> {
-        return this.workerService.updateFile({ id });
+    @Post('/:id/config')
+    async writeWorkerConfigCapfile(@Param('id') id: string): Promise<Error | undefined> {
+        return this.workerService.writeWorkerConfigCapfile({ id });
+    }
+
+    @Post('/:id/code')
+    async writeWorkerCode(@Param('id') id: string): Promise<Error | undefined> {
+        return this.workerService.writeWorkerCode({ id });
     }
 
     @Delete('/:id/file')
-    deleteFile(@Param('id') id: string): Promise<WorkerModel> {
+    async deleteFile(@Param('id') id: string): Promise<Error | undefined> {
         return this.workerService.deleteFile({ id });
     }
 
     @Post('/:id/run')
-    runWorker(@Param('id') id: string): Promise<WorkerModel> {
+    async runWorker(@Param('id') id: string): Promise<Error | undefined> {
         return this.workerService.runWorker({ id });
     }
 
     @Delete('/:id/run')
-    stopWorker(@Param('id') id: string): Promise<WorkerModel> {
+    async stopWorker(@Param('id') id: string): Promise<Error | undefined> {
         return this.workerService.stopWorker({ id });
     }
 }
