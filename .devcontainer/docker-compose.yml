@@ -19,8 +19,8 @@ services:
         environment:
             WORKERD_DIR: /workspaces/workerd-manager/tmp/workerd
             WORKER_INFO_DIR: worker-info
-            DB_PATH: file:/workspaces/workerd-manager/tmp/workerd/db.sqlite
-            DB_TYPE: sqlite
+            DB_TYPE: postgresql
+            DB_URL: postgres://postgres:postgres@db:5432/postgres
             API_LISTEN_ADDR: 0.0.0.0
             API_PORT: 8888
 
