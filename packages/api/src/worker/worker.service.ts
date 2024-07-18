@@ -3,28 +3,32 @@ import { PrismaService } from '@/prisma.service';
 import { Worker as WorkerModel, Prisma } from '@prisma/client';
 import { Worker } from '@/gen/wokerd_pb';
 import { WorkerdService } from '@/workerd/workerd.service';
+import { CreateWorkerDto } from './dto/create-worker.dto';
+import { UpdateWorkerDto } from './dto/update-worker.dto';
 
 @Injectable()
 export class WorkerService {
     constructor(private prisma: PrismaService, private workerd: WorkerdService) { }
 
-    async createWorker(data: Prisma.WorkerCreateInput): Promise<WorkerModel> {
+    async create(createWorkerDto: CreateWorkerDto): Promise<WorkerModel> {
+        const data: Prisma.WorkerCreateInput = {
+            port: createWorkerDto.port,
+            code: createWorkerDto.code,
+            name: createWorkerDto.name,
+            user: { connect: { id: createWorkerDto.userId } }
+        }
         return this.prisma.worker.create({ data });
     }
 
-    async updateWorker(params: {
-        where: Prisma.WorkerWhereUniqueInput;
-        data: Prisma.WorkerUpdateInput;
-    }): Promise<WorkerModel> {
-        const { where, data } = params;
-        return this.prisma.worker.update({ data, where });
+    async update(id: string, updateWorkerDto: UpdateWorkerDto): Promise<WorkerModel> {
+        return this.prisma.worker.update({ where: { id }, data: updateWorkerDto });
     }
 
-    async findWorker(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel | null> {
-        return this.prisma.worker.findUnique({ where });
+    async findOne(id: string): Promise<WorkerModel | null> {
+        return this.prisma.worker.findUnique({ where: { id } });
     }
 
-    async findWorkers(
+    async findAll(
         params: {
             skip?: number;
             take?: number;
@@ -43,32 +47,32 @@ export class WorkerService {
         });
     }
 
-    async removeWorker(where: Prisma.WorkerWhereUniqueInput): Promise<WorkerModel> {
-        return this.prisma.worker.delete({ where });
+    async remove(id: string): Promise<WorkerModel> {
+        return this.prisma.worker.delete({ where: { id } });
     }
 
-    async writeWorkerConfigCapfile(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
-        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+    async writeWorkerConfigCapfile(id: string): Promise<Error | undefined> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where: { id } }));
         return this.workerd.writeWorkerConfigCapfile(configData);
     }
 
-    async writeWorkerCode(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
-        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+    async writeCode(id: string): Promise<Error | undefined> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where: { id } }));
         return this.workerd.writeWorkerCode(configData);
     }
 
-    async deleteFile(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
-        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+    async deleteFile(id: string): Promise<Error | undefined> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where: { id } }));
         return this.workerd.deleteFile(configData);
     }
 
-    async runWorker(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
-        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+    async run(id: string): Promise<Error | undefined> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where: { id } }));
         return this.workerd.runCmd(configData.id, []);
     }
 
-    async stopWorker(where: Prisma.WorkerWhereUniqueInput): Promise<Error | undefined> {
-        const configData = new Worker(await this.prisma.worker.findUnique({ where }));
+    async stop(id: string): Promise<Error | undefined> {
+        const configData = new Worker(await this.prisma.worker.findUnique({ where: { id } }));
         return this.workerd.exitCmd(configData.id);
     }
 

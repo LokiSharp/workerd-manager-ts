@@ -1,62 +1,59 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { Worker as WorkerModel, Prisma } from '@prisma/client';
+import { Worker as WorkerModel } from '@prisma/client';
 import { WorkerService } from './worker.service';
+import { CreateWorkerDto } from './dto/create-worker.dto';
+import { UpdateWorkerDto } from './dto/update-worker.dto';
 
 @Controller('worker')
 export class WorkerController {
     constructor(private readonly workerService: WorkerService) { }
     @Post()
-    async create(@Body() workerData: Prisma.WorkerCreateInput): Promise<WorkerModel> {
-        const worker = await this.workerService.createWorker(workerData)
-        return worker;
+    async create(@Body() createWorkerDto: CreateWorkerDto): Promise<WorkerModel> {
+        return await this.workerService.create(createWorkerDto);
     }
 
     @Put('/:id')
-    async update(@Param('id') id: string, @Body() workerData: Prisma.WorkerUpdateInput): Promise<WorkerModel> {
-        const worker = await this.workerService.updateWorker({
-            where: { id },
-            data: workerData,
-        });
-        return worker;
+    async update(@Param('id') id: string, @Body() updateWorkerDto: UpdateWorkerDto): Promise<WorkerModel> {
+        return await this.workerService.update(id, updateWorkerDto);
     }
 
     @Get()
     async findAll(): Promise<WorkerModel[]> {
-        return this.workerService.findWorkers({});
+        return this.workerService.findAll({});
     }
 
     @Get('/:id')
     async findOne(@Param('id') id: string): Promise<WorkerModel> {
-        return this.workerService.findWorker({ id });
+        return this.workerService.findOne(id);
     }
 
     @Delete('/:id')
     async remove(@Param('id') id: string): Promise<WorkerModel> {
-        return this.workerService.removeWorker({ id });
+        return this.workerService.remove(id);
     }
 
     @Post('/:id/config')
     async writeWorkerConfigCapfile(@Param('id') id: string): Promise<Error | undefined> {
-        return this.workerService.writeWorkerConfigCapfile({ id });
+        return this.workerService.writeWorkerConfigCapfile(id);
     }
 
     @Post('/:id/code')
-    async writeWorkerCode(@Param('id') id: string): Promise<Error | undefined> {
-        return this.workerService.writeWorkerCode({ id });
+    async writeCode(@Param('id') id: string): Promise<Error | undefined> {
+        return this.workerService.writeCode(id);
     }
 
     @Delete('/:id/file')
     async deleteFile(@Param('id') id: string): Promise<Error | undefined> {
-        return this.workerService.deleteFile({ id });
+        return this.workerService.deleteFile(id);
     }
 
     @Post('/:id/run')
-    async runWorker(@Param('id') id: string): Promise<Error | undefined> {
-        return this.workerService.runWorker({ id });
+    async run(@Param('id') id: string): Promise<Error | undefined> {
+        return this.workerService.run(id);
     }
 
     @Delete('/:id/run')
-    async stopWorker(@Param('id') id: string): Promise<Error | undefined> {
-        return this.workerService.stopWorker({ id });
+    async stop(@Param('id') id: string): Promise<Error | undefined> {
+        return this.workerService.stop(id);
     }
 }

@@ -7,7 +7,7 @@ import { WorkerdModule } from './workerd/workerd.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
-    imports: [WorkerModule, ConfigModule.forRoot(), WorkerdModule, UsersModule],
+    imports: [ConfigModule.forRoot(), UsersModule, WorkerModule, WorkerdModule],
     controllers: [AppController],
     providers: [AppService],
 })
