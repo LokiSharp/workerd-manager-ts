@@ -27,7 +27,7 @@ model User {
     email    String   @unique
     userName String
     password String
-    role     Role     @default(USER)
+    roles    Role[]   @default([USER])
     status   Int?
     workers  Worker[]
 }

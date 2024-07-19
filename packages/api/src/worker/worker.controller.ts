@@ -3,6 +3,8 @@ import { Worker as WorkerModel } from '@prisma/client';
 import { WorkerService } from './worker.service';
 import { CreateWorkerDto } from './dto/create-worker.dto';
 import { UpdateWorkerDto } from './dto/update-worker.dto';
+import { Roles } from '@/roles/roles.decorator';
+import { Role } from '@prisma/client';
 
 @Controller('worker')
 export class WorkerController {
@@ -18,16 +20,19 @@ export class WorkerController {
         return await this.workerService.update(id, updateWorkerDto);
     }
 
+    @Roles(Role.ADMIN)
     @Get()
     async findAll(): Promise<WorkerModel[]> {
         return this.workerService.findAll({});
     }
 
+    @Roles(Role.ADMIN)
     @Get('/:id')
     async findOne(@Param('id') id: string): Promise<WorkerModel> {
         return this.workerService.findOne(id);
     }
 
+    @Roles(Role.ADMIN)
     @Delete('/:id')
     async remove(@Param('id') id: string): Promise<WorkerModel> {
         return this.workerService.remove(id);
