@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { WorkerdService } from './workerd.service';
-import { ConfigService } from '@nestjs/config';
 
 @Module({
-  providers: [WorkerdService, ConfigService]
+  providers: [WorkerdService]
 })
 export class WorkerdModule {}

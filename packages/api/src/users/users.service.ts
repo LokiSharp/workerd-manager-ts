@@ -52,8 +52,8 @@ export class UsersService {
         });
     }
 
-    findOne(id: string) {
-        return this.prisma.user.findUnique({ where: { id } });
+    findOne(where: Prisma.UserWhereUniqueInput) {
+        return this.prisma.user.findUnique({ where });
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {

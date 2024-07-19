@@ -7,6 +7,7 @@ import { UpdateWorkerDto } from './dto/update-worker.dto';
 @Controller('worker')
 export class WorkerController {
     constructor(private readonly workerService: WorkerService) { }
+
     @Post()
     async create(@Body() createWorkerDto: CreateWorkerDto): Promise<WorkerModel> {
         return await this.workerService.create(createWorkerDto);

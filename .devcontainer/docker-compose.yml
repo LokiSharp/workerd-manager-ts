@@ -23,6 +23,7 @@ services:
             DB_URL: postgres://postgres:postgres@db:5432/postgres
             API_LISTEN_ADDR: 0.0.0.0
             API_PORT: 8888
+            JWT_SECRET: DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.
 
     db:
         image: postgres:latest
