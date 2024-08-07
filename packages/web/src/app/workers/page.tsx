@@ -1,17 +1,22 @@
 'use client'
 
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { authFetch } from "../auth-fetch";
 
 function Workers() {
     const [data, setData] = useState(null);
-
+    const flag = useRef<boolean>(true);
     useEffect(() => {
+
         async function fetchData() {
-            const token = localStorage.getItem('jwtToken');
-            const response = await fetch(`//${process.env.NEXT_PUBLIC_API_URL}/worker`, {
+            if (flag.current) {
+                flag.current = false;
+                return;
+            }
+            const response = await authFetch(`//${process.env.NEXT_PUBLIC_API_URL}/worker`, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
             })
 
             if (response.ok) {

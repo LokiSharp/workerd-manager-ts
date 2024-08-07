@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { login } from "../auth-fetch";
 
 function Login() {
     const router = useRouter()
@@ -11,21 +12,11 @@ function Login() {
         event.preventDefault()
 
         const formData = new FormData(event.currentTarget)
-        const username = formData.get('username')
-        const password = formData.get('password')
+        const username = formData.get('username')!
+        const password = formData.get('password')!
 
-        const response = await fetch(`//${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
-        })
-
-        if (response.ok) {
-            const { access_token } = await response.json()
-            localStorage.setItem('jwtToken', access_token)
+        if ((await login(username, password)).ok) {
             router.push('/')
-        } else {
-            // Handle errors
         }
     }
 

@@ -30,6 +30,14 @@ model User {
     roles    Role[]   @default([USER])
     status   Int?
     workers  Worker[]
+    AuthRefreshTokens AuthRefreshToken[]
+}
+
+model AuthRefreshToken  {
+    refreshToken String   @unique
+    expiresAt    DateTime
+    user         User     @relation(fields: [userId], references: [id])
+    userId       String
 }
 
 enum Role {

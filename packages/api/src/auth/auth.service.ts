@@ -1,14 +1,14 @@
 import { UsersService } from '@/users/users.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { AuthRefreshTokenService } from './auth-refresh-token.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private usersService: UsersService,
-        private jwtService: JwtService
+        private authRefreshTokenService: AuthRefreshTokenService,
     ) { }
 
     async validateUser(username: string, pass: string): Promise<unknown> {
@@ -22,9 +22,6 @@ export class AuthService {
     }
 
     async login(user: User) {
-        const payload = { sub: user.id, username: user.userName, roles: user.roles };
-        return {
-          access_token: this.jwtService.sign(payload),
-        };
-      }
+        return this.authRefreshTokenService.generateTokenPair(user.id);
+    }
 }
